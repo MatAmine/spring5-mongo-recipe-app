@@ -58,7 +58,7 @@ public class IngredientControllerTest {
 
         //then
         verify(recipeService, times(1)).findCommandById(anyString());
-    }r
+    }
 
     @Test
     public void testShowIngredient() throws Exception {
