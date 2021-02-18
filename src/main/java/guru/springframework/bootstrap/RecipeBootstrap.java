@@ -4,7 +4,11 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.repositories.reactive.CategoryReactiveRepository;
+import guru.springframework.repositories.reactive.RecipeReactiveRepository;
+import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -37,12 +41,12 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-//        if(!categoryRepository.findAll().iterator().hasNext()) {
+        if(!categoryRepository.findAll().iterator().hasNext()) {
             loadCategories();
-//        }
-//        if(!unitOfMeasureRepository.findAll().iterator().hasNext()) {
+        }
+        if(!unitOfMeasureRepository.findAll().iterator().hasNext()) {
             loadUom();
-//        }
+        }
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading Bootstrap Data");
     }
