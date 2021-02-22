@@ -11,6 +11,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import reactor.core.publisher.Mono;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,8 +47,9 @@ public class ImageControllerTest {
         //given
         RecipeCommand command = new RecipeCommand();
         command.setId("1");
+        Mono<RecipeCommand> mono = Mono.just(command);
 
-        when(recipeService.findCommandById(anyString())).thenReturn(command);
+        when(recipeService.findCommandById(anyString())).thenReturn(mono);
 
         //when
         mockMvc.perform(get("/recipe/1/image"))
@@ -55,7 +57,6 @@ public class ImageControllerTest {
                 .andExpect(model().attributeExists("recipe"));
 
         verify(recipeService, times(1)).findCommandById(anyString());
-
     }
 
     @Test
@@ -89,8 +90,9 @@ public class ImageControllerTest {
         }
 
         command.setImage(bytesBoxed);
+        Mono<RecipeCommand> recipeCommandMono = Mono.just(command);
 
-        when(recipeService.findCommandById(anyString())).thenReturn(command);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommandMono);
 
         //when
         MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
