@@ -41,12 +41,12 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        if(!categoryRepository.findAll().iterator().hasNext()) {
-            loadCategories();
-        }
-        if(!unitOfMeasureRepository.findAll().iterator().hasNext()) {
-            loadUom();
-        }
+        categoryRepository.deleteAll();
+        unitOfMeasureRepository.deleteAll();
+        recipeRepository.deleteAll();
+
+        loadCategories();
+        loadUom();
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading Bootstrap Data");
     }
@@ -168,7 +168,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         Category americanCategory = americanCategoryOptional.get();
         Category mexicanCategory = mexicanCategoryOptional.get();
 
-        if(recipeRepository.findByDescription("Perfect Guacamole") == null) {
             //Yummy Guac
             Recipe guacRecipe = new Recipe();
             guacRecipe.setDescription("Perfect Guacamole");
@@ -218,9 +217,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
             //add to return list
             recipes.add(guacRecipe);
-        }
 
-        if(recipeRepository.findByDescription("Spicy Grilled Chicken Taco") == null) {
+
             //Yummy Tacos
             Recipe tacosRecipe = new Recipe();
             tacosRecipe.setDescription("Spicy Grilled Chicken Taco");
@@ -281,7 +279,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
             tacosRecipe.setSource("Simply Recipes");
 
             recipes.add(tacosRecipe);
-        }
+
         return recipes;
     }
 }

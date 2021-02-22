@@ -1,6 +1,8 @@
 package guru.springframework.repositories;
 
+import guru.springframework.bootstrap.RecipeBootstrap;
 import guru.springframework.domain.UnitOfMeasure;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +25,20 @@ class UnitOfMeasureRepositoryIT {
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    RecipeRepository recipeRepository;
+
+    @BeforeEach
+    void setUp() {
+
+        RecipeBootstrap recipeBootstrap = new RecipeBootstrap(categoryRepository, recipeRepository, unitOfMeasureRepository);
+
+        recipeBootstrap.onApplicationEvent(null);
+    }
+
     @Test
     void findByDescription() throws Exception {
 
@@ -38,5 +54,4 @@ class UnitOfMeasureRepositoryIT {
 
         assertEquals("Cup", uomOptional.get().getDescription());
     }
-
 }

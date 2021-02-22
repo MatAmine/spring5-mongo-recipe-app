@@ -1,6 +1,12 @@
 package guru.springframework.repositories.reactive;
 
+import guru.springframework.bootstrap.RecipeBootstrap;
 import guru.springframework.domain.UnitOfMeasure;
+import guru.springframework.repositories.CategoryRepository;
+import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.UnitOfMeasureRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +25,15 @@ class UnitOfMeasureReactiveRepositoryIT {
     @Autowired
     private UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
 
+    @Autowired
+    static CategoryRepository categoryRepository;
+
+    @Autowired
+    static RecipeRepository recipeRepository;
+
+    @Autowired
+    static UnitOfMeasureRepository unitOfMeasureRepository;
+
     UnitOfMeasure unitOfMeasure = new UnitOfMeasure();
 
     @BeforeEach
@@ -36,4 +51,6 @@ class UnitOfMeasureReactiveRepositoryIT {
         assertEquals(unitOfMeasure.getId(), unitOfMeasureReactiveRepository.findAll().blockFirst().getId());
 
     }
+
+
 }
